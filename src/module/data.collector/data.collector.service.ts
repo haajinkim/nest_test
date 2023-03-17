@@ -20,8 +20,9 @@ export class DataCollectorService {
   constructor(private prisma: PrismaService, private readonly axios: HttpService, private redisService: RedisService) {}
 
   //this renders the function every 15 minutes
-  // @Cron('*/10 * * * * *')
-  async create(createDataCollectorDto: CreateDataCollectorDto): Promise<User> {
+  @Cron('*/5 * * * * *')
+
+  async create(createDataCollectorDto: CreateDataCollectorDto) {
     try {
       const { results }: any = await lastValueFrom(
         this.axios.get(`https://randomuser.me/api`).pipe(
@@ -40,11 +41,14 @@ export class DataCollectorService {
         location: results[0].location,
       };
 
-      const test = await this.redisService.get('test');
-      console.log(test);
+       await this.redisService.set('name', results[0].name)
+       
+      const userName = await this.redisService.get('name')
+      console.log(userName);
+      return userName
 
-      const user: User = await this.prisma.user.create({ data: params });
-      return user;
+      // const user: User = await this.prisma.user.create({ data: params });
+      // return user;
     } catch (error) {
       this.logger.error('error: ', error);
     }
