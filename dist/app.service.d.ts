@@ -1,4 +1,4 @@
+import { Request } from 'express';
 export declare class AppService {
-    getData(req: any): string;
-    getTest(): string;
+    healthCheck(req: Request): string;
 }

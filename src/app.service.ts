@@ -1,15 +1,8 @@
 import { Injectable } from '@nestjs/common';
-
+import { Request } from 'express';
 @Injectable()
 export class AppService {
-  getData(req): string {
-    console.log(req.body);
-    return 'Hello Worldsss!';
-    
-  }
-
-
-  getTest(): string {
-    return 'getTest입니다!.';
+  healthCheck(req: Request): string {
+    return 'healthCheck!';
   }
 }

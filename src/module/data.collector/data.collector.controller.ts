@@ -8,14 +8,13 @@ import { UpdateDataCollectorDto } from './dto/update-data.collector.dto';
 export class DataCollectorController {
   constructor(private readonly dataCollectorService: DataCollectorService) {}
 
-  @Post()
+  @Post('/user')
   create(@Body() createDataCollectorDto: CreateDataCollectorDto) {
     return this.dataCollectorService.create(createDataCollectorDto);
   }
 
   @Get()
-async  findAll(@Res() res: Response) {
-
+  async findAll(@Res() res: Response) {
     return res.status(200).json(await this.dataCollectorService.findAll());
   }
 

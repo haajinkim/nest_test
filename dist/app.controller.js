@@ -20,10 +20,7 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello(request) {
-        return this.appService.getData(request);
-    }
-    getTest() {
-        return this.appService.getTest();
+        return this.appService.healthCheck(request);
     }
 };
 __decorate([
@@ -33,12 +30,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
-__decorate([
-    (0, common_1.Get)('/test'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getTest", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
