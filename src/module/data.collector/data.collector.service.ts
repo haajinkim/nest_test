@@ -36,7 +36,7 @@ export class DataCollectorService {
           country: results[0].country,
           location: results[0].location
         }
-
+ 
         const data = await this.prisma.user.create({data: params})
 
         return data
