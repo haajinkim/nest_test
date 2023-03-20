@@ -1,9 +1,9 @@
-import { Injectable, Inject, CACHE_MANAGER } from '@nestjs/common';
-import { Cache } from 'cache-manager';
+import { Injectable } from '@nestjs/common';
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 
 @Injectable()
 export class RedisService {
-  constructor(@Inject(CACHE_MANAGER) private readonly redis: Cache) {}
+  constructor(@InjectRedis() private readonly redis: Redis) {}
 
   async get(key: string): Promise<any> {
     return await this.redis.get(key);

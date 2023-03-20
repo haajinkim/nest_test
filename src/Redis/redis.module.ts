@@ -1,17 +1,21 @@
-import { Module, CacheModule } from '@nestjs/common';
-import { RedisService } from './redis.service';
-import * as redisStore from 'cache-manager-ioredis';
+import { Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
+import { RedisService } from './redis.service';
+
+const config = new ConfigService();
+
+@Global()
 @Module({
   imports: [
-    CacheModule.register({
-      // store: redisStore,
-      host: 'localhost',
-      port: 6379,
-      ttl: 100000,
+    RedisModule.forRoot({
+      config: {
+        url: config.get('REDIS_URL'),
+      },
     }),
   ],
   providers: [RedisService],
-  exports: [RedisService]
+  exports: [RedisService],
 })
-export class RedisModule {}
+export class RedisModules {}

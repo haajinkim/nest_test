@@ -1,16 +1,25 @@
 import { Module } from '@nestjs/common';
-import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigModule } from '@nestjs/config';
-import { HttpModule } from '@nestjs/axios';
+import { RedisModule } from '@nestjs-modules/ioredis';
+import { ConfigService } from '@nestjs/config';
 
-import { DataCollectorModule } from './module/data.collector/data.collector.module';
 import { PrismaService } from './prisma.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RedisModule } from './Redis/redis.module';
 
+import { UserModules } from './user/user.module';
+
+const config = new ConfigService();
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), ScheduleModule.forRoot(), HttpModule, RedisModule, DataCollectorModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    RedisModule.forRoot({
+      config: {
+        url: config.get('REDIS_URL'),
+      },
+    }),
+    UserModules,
+  ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
