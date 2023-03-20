@@ -12,13 +12,14 @@ datasource db {
 
 model User {
   id       Int     @id @default(autoincrement())
-  userId    String  @unique
-  name     String
-  passWord String
-  age Int
+  userId    String  @unique @db.VarChar(20)
+  name     String @db.VarChar(10)
+  password String @db.VarChar(255)
+  age Int 
   gender Gender
-}
 
+  @@index([userId])
+}
 
 enum Gender {
   Male

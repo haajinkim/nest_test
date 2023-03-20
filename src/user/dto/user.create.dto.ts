@@ -1,5 +1,4 @@
 import { IsNumber, IsString } from 'class-validator';
-
 import { Gender } from '../interface/user.interface';
 
 export class CreateUserDto {
@@ -10,7 +9,7 @@ export class CreateUserDto {
   readonly name: string;
 
   @IsString()
-  readonly passWord: string;
+  readonly password: string;
 
   @IsNumber()
   readonly age: number;
