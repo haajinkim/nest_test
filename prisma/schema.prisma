@@ -16,12 +16,13 @@ model User {
   name     String
   passWord String
   age Int
+  gender Gender
 }
 
 
 enum Gender {
   Male
-  FeMale
+  Female
 }
 
 

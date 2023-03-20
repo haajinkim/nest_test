@@ -1,7 +1,4 @@
-export enum Gender {
-  MALE,
-  FEMALE,
-}
+export type Gender = 'Male' | 'Female';
 
 export interface userCreate {
   userId: string;

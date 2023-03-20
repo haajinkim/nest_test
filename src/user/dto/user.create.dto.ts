@@ -10,7 +10,7 @@ export class CreateUserDto {
   readonly name: string;
 
   @IsString()
-  readonly password: string;
+  readonly passWord: string;
 
   @IsNumber()
   readonly age: number;
