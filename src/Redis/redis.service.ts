@@ -13,6 +13,10 @@ export class RedisService {
     await this.redis.set(key, value, option);
   }
 
+  async setEx(key: string, seconds: any, value: any) {
+    await this.redis.setex(key, seconds, value);
+  }
+
   async reset() {
     await this.redis.reset();
   }

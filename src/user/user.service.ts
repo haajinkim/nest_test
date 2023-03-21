@@ -7,7 +7,10 @@ import { CreateUserDto } from './dto/user.create.dto';
 import { UpdateUserDto } from './dto/user.update.dto';
 
 import { ErrorMsg } from '../utils/util.error.msg';
+import { SuccessMsg } from '../utils/util.error.msg';
 import { hash } from '../utils/util.bcrypt';
+
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -17,6 +20,13 @@ export class UserService {
   async findUser(id: number): Promise<string> {
     const user = await this.prisma.user.findUnique({ where: { id } });
     return user.userId;
+  }
+
+  async findMany(): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      where: { gender: 'Male' },
+    });
+    return users;
   }
 
   async updateUser(updateUserDto: UpdateUserDto) {
@@ -30,17 +40,16 @@ export class UserService {
       gender: updateUserDto.gender,
     };
 
-    try{
-      const update = await this.prisma.user.update({
-        where: { userId: updateUserDto.userId},
-        data
+    try {
+      await this.prisma.user.update({
+        where: { userId: updateUserDto.userId },
+        data,
       });
-      return 'success'
-    }
-    catch(e) {
+      return SuccessMsg;
+    } catch (e) {
       if (e.meta.cause === 'Record to update not found.') {
         throw new BadRequestException(ErrorMsg.updateNotFound);
-      }
+      } else this.logger.error('e', e);
     }
   }
 
@@ -57,13 +66,22 @@ export class UserService {
 
     try {
       await this.prisma.user.create({ data });
-      return 'success';
-    } catch (err) {
-      if (err.meta.target === 'User_userId_key') {
+      return SuccessMsg;
+    } catch (e) {
+      if (e.meta.target === 'User_userId_key') {
         throw new BadRequestException(ErrorMsg.duplicateId);
-      }
-      this.logger.error('e', err);
+      } else this.logger.error('e', e);
     }
   }
 
+  async deleteUser(id: number) {
+    try {
+      await this.prisma.user.delete({ where: { id } });
+      return SuccessMsg;
+    } catch (e) {
+      if (e.meta.cause === 'Record to delete does not exist.') {
+        throw new BadRequestException(ErrorMsg.deleteNotFound);
+      } else this.logger.error('e', e);
+    }
+  }
 }

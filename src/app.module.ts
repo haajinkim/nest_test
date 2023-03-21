@@ -8,8 +8,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { UserModules } from './user/user.module';
+import { SignModules } from './sign/sign.module';
+import { JwtStrategy } from './middlewares/jwt.strategy';
 
 const config = new ConfigService();
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -19,8 +22,9 @@ const config = new ConfigService();
       },
     }),
     UserModules,
+    SignModules,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService, PrismaService, JwtStrategy],
 })
 export class AppModule {}

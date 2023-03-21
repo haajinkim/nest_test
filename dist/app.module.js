@@ -15,6 +15,8 @@ const prisma_service_1 = require("./prisma.service");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const user_module_1 = require("./user/user.module");
+const sign_module_1 = require("./sign/sign.module");
+const jwt_strategy_1 = require("./middlewares/jwt.strategy");
 const config = new config_2.ConfigService();
 let AppModule = class AppModule {
 };
@@ -28,9 +30,10 @@ AppModule = __decorate([
                 },
             }),
             user_module_1.UserModules,
+            sign_module_1.SignModules,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, prisma_service_1.PrismaService],
+        providers: [app_service_1.AppService, prisma_service_1.PrismaService, jwt_strategy_1.JwtStrategy],
     })
 ], AppModule);
 exports.AppModule = AppModule;
